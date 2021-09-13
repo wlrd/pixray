@@ -6,6 +6,7 @@ import os
 import json
 import subprocess
 import glob
+import pathlib
 from braceexpand import braceexpand
 from types import SimpleNamespace
 
@@ -742,6 +743,10 @@ def checkin(args, iter, losses):
         outfile = args.output
     else:
         outfile = anim_output_files[cur_anim_index]
+    
+    outfile = pathlib.Path(outfile)
+    outfile = outfile.parent / f'{outfile.stem}_{cur_iteration}{outfile.suffix}'
+    
     img.save(outfile, pnginfo=info)
     if cur_anim_index == len(anim_output_files) - 1:
         # save gif
